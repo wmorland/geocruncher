@@ -18,6 +18,7 @@ var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
+var personController = require('./controllers/person');
 
 /**
  * API keys + Passport configuration.
@@ -122,6 +123,12 @@ app.get('/api/tumblr', passportConf.isAuthenticated, passportConf.isAuthorized, 
 app.get('/api/facebook', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getFacebook);
 app.get('/api/github', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getGithub);
 app.get('/api/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getTwitter);
+
+// My stuff
+
+app.get('/person/person', personController.getPerson);
+app.post('/person/person', personController.putPerson);
+
 
 /**
  * OAuth routes for sign-in.

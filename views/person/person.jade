@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+  .page-header
+    h3 Pick a user
+
+  .col-sm-8.col-sm-offset-2
+    form(method='POST')
+      input(type='hidden', name='_csrf', value=token)
+      .form-group
+        label.control-label(for='username') Twitter Username
+        input.form-control(type='text', name='username', id='username', placeholder='username', autofocus=true)
+      .form-group
+        button.btn.btn-primary(type='submit')
+          i.fa.fa-unlock-alt
+          | Submit

@@ -32,8 +32,8 @@ module.exports = {
   },
 
   twitter: {
-    consumerKey: 'Your Consumer Key',
-    consumerSecret: 'Your Consumer Secret',
+    consumerKey: 'NhZ4tcbxV7SkFx6AEyz02w',
+    consumerSecret: '6z4ONTYhZa2x3VSeiuyCVyCUerr2QrUyc2LkxmT6o',
     callbackURL: '/auth/twitter/callback',
     passReqToCallback: true
   },
@@ -61,8 +61,8 @@ module.exports = {
   },
 
   foursquare: {
-    clientId: 'Your Client ID',
-    clientSecret: 'Your Client Secret',
+    clientId: '1TVXRSNWDXQPGYI4HG5Q24BWTO0GEEL1WCMVJZNUQV50PL4Z',
+    clientSecret: '13BJUKW1JCQEJJNY1MNDNUAPVXYU50P5ICEAMGAQTSDVYUHF',
     redirectUrl: 'http://localhost:3000/auth/foursquare/callback'
   },
 
