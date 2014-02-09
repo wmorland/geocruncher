@@ -43,7 +43,11 @@ block content
               small #{tweet.text}
       if tweet.coordinates
         script(type='text/javascript').
-          var marker = L.marker([#{tweet.coordinates.coordinates[1]}, #{tweet.coordinates.coordinates[0]}]).bindPopup('#{tweet.text.replace("\\","\\\\").replace("\n","\\n").replace("\b","\\b").replace("\r","\\r").replace("\t","\\t").replace("\'","\\'").replace("\f","\\f").replace("\"","\\\"")}');
+          var popup = '#{tweet.text.replace("\\","\\\\").replace("\n","\\n").replace("\b","\\b").replace("\r","\\r").replace("\t","\\t").replace("\'","\\'").replace("\f","\\f").replace("\"","\\\"")}';
+          if (#{showUser}) {
+            popup = popup + '<br> - Timestamp: ' + '#{tweet.created_at}';
+          }
+          var marker = L.marker([#{tweet.coordinates.coordinates[1]}, #{tweet.coordinates.coordinates[0]}]).bindPopup(popup);
           tweetLayer.addLayer(marker);
           if (latlngs) {
             latlngs.push(marker.getLatLng())
