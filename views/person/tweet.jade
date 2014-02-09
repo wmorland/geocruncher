@@ -22,9 +22,10 @@ block content
     var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib}).addTo(map);
     var tweetLayer = L.layerGroup();
 
-  a.btn.btn-success.refreshusers(href='http://localhost:3000/person/random')
-      i.fa.fa-refresh
-      | See a new user
+  if !showUser
+    a.btn.btn-success.refreshusers(href='http://localhost:3000/person/random')
+        i.fa.fa-refresh
+        | See a new user
 
   ul.list-unstyled
     for tweet in results
