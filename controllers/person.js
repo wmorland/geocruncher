@@ -26,7 +26,7 @@ exports.getRandom = function(req, res) {
     if (err) return next(err);
     var index = Math.floor((Math.random()*reply.statuses.length)+1);
     var count = 0;
-    while (reply.statuses[index].coordinates != null && count < 50) {
+    while ((reply.statuses[index].coordinates != null && count < 50) || reply.statuses[index].user.screen_name == 'dolphonia') {
       name = reply.statuses[index].user.screen_name;
       count = count + 1;
       var index = Math.floor((Math.random()*reply.statuses.length)+1);
