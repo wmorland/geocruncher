@@ -127,8 +127,6 @@ app.get('/api/twitter', passportConf.isAuthenticated, passportConf.isAuthorized,
 
 // My stuff
 
-app.get('/person/person', personController.getPerson);
-app.post('/person/person', personController.putPerson);
 app.get('/person/random', personController.getRandom);
 app.get('/person/me', personController.getMe);
 
