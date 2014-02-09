@@ -9,7 +9,7 @@ block content
 
   #map
 
-  p #{useme}
+  
 
   script(type='text/javascript').
     var map = L.map('map').setView([51.505, -0.09], 13);
@@ -17,3 +17,31 @@ block content
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
       maxZoom: 18
     }).addTo(map);
+
+  ul.list-unstyled
+    for tweet in results
+      li
+        .panel.panel-default
+          .panel-body
+            .clearfix
+              - var image = tweet.user.profile_image_url.replace('_normal', '');
+              img.pull-left(src='#{image}', width=50, height=50, style='margin-right: 10px')
+
+              =tweet.user.name
+              small.text-muted  @#{tweet.user.screen_name}
+              br
+              small #{tweet.text}
+      if tweet.coordinates
+        script(type='text/javascript').
+          var marker = L.marker([#{tweet.coordinates.coordinates[1]}, #{tweet.coordinates.coordinates[0]}]).addTo(map).bindPopup('#{tweet.text.replace("\\","\\\\").replace("\n","\\n").replace("\b","\\b").replace("\r","\\r").replace("\t","\\t").replace("\'","\\'").replace("\f","\\f").replace("\"","\\\"")}');
+          if (latlngs) {
+            latlngs.push(marker.getLatLng())
+          } else {
+            var latlngs = new Array(marker.getLatLng());
+          }
+
+  script(type='text/javascript').
+    if (latlngs) {
+      var bounds = L.latLngBounds(latlngs);
+      map.fitBounds(bounds);
+    }

@@ -28,11 +28,11 @@ exports.putPerson = function(req, res) {
   });
   var name = req.body.username;
 
-  T.get('statuses/user_timeline', { screen_name: name, count: 1 }, function(err, reply) {
+  T.get('statuses/user_timeline', { screen_name: name, count: 200}, function(err, reply) {
     if (err) return next(err);
     res.render('person/tweet', {
       title: 'Tweet',
-      useme: reply[0].text
+      results: reply
     });
   });
 
