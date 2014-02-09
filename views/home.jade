@@ -1,11 +1,22 @@
 extends layout
 
 block content
-  h1 Bootstrap starter template
+  h1 Welcome to GeoCruncher
   p.lead
-    | Use this document as a way to quickly start any new project.
-    br
-    | All you get is this text and a mostly barebones HTML document.
+    | People often tweet, unaware that they’re sharing their location (a feature which is active by default on smartphones); even those that are aware of this fact make the assumption that while the information is public, it is harmless. However over time behavioural patterns can be inferred and mapped, this information can be used for ill intent.
+  p.lead  
+    | Publicly available locational data can be used in the perpetration of numerous crimes against property and person (i.e. burglary, stalking, kidnapping), our goal with GeoCruncher is to make people aware of the extent to which their publicly available geo-locational data, can be tracked.
+
+  .btn-group.btn-group-justified
+    a.btn.btn-success(href='http://localhost:3000/person/person')
+      i.fa.fa-user
+      | Enter a username
+    a.btn.btn-success(href='http://localhost:3000/person/random')
+      i.fa.fa-users
+      | Display random users
+
+  br
+
 
   if user
     .alert.alert-success.animated.flipInX

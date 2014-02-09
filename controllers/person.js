@@ -35,5 +35,37 @@ exports.putPerson = function(req, res) {
       results: reply
     });
   });
-
 };
+
+/**
+ * Get /random
+ * Display a tweet.
+ */
+
+exports.getRandom = function(req, res) {
+  var token = _.findWhere(req.user.tokens, { kind: 'twitter' });
+  var T = new Twit({
+    consumer_key: secrets.twitter.consumerKey,
+    consumer_secret: secrets.twitter.consumerSecret,
+    access_token: token.accessToken,
+    access_token_secret: token.tokenSecret
+  });
+
+  var name = 'dolphonia';
+
+  // TODO: Get random username with some geolocation data
+  T.get('search/tweets', { q: 'foursquare', count: 100}, function(err,reply) {
+    if (err) return next(err);
+    var index = Math.floor((Math.random()*reply.statuses.length)+1);
+    name = reply.statuses[index].user.screen_name;
+
+    T.get('statuses/user_timeline', { screen_name: name, count: 200}, function(err, reply) {
+      if (err) return next(err);
+      res.render('person/tweet', {
+        title: 'Random User',
+        results: reply
+      });
+    });
+  });
+};
+
