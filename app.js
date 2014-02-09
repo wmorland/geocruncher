@@ -19,6 +19,7 @@ var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
 var personController = require('./controllers/person');
+var disclaimerController = require('./controllers/disclaimer');
 
 /**
  * API keys + Passport configuration.
@@ -129,6 +130,10 @@ app.get('/api/twitter', passportConf.isAuthenticated, passportConf.isAuthorized,
 app.get('/person/person', personController.getPerson);
 app.post('/person/person', personController.putPerson);
 app.get('/person/random', personController.getRandom);
+app.get('/person/me', personController.getMe);
+
+app.get('/disclaimer', disclaimerController.getDisclaimer);
+app.get('/about', disclaimerController.getAbout);
 
 
 /**

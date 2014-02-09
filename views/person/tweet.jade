@@ -5,7 +5,7 @@ block content
   script(src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js')
 
   .page-header
-    h3 Tweet
+    h3 Tweet Plot
 
   #map
 
@@ -13,10 +13,18 @@ block content
 
   script(type='text/javascript').
     var map = L.map('map').setView([51.505, -0.09], 13);
-    L.tileLayer('http://{s}.tile.cloudmade.com/e377920dd7714b17a6caac1394f4eb0b/997/256/{z}/{x}/{y}.png', {
+    var baseTile = L.tileLayer('http://{s}.tile.cloudmade.com/e377920dd7714b17a6caac1394f4eb0b/997/256/{z}/{x}/{y}.png', {
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
       maxZoom: 18
-    }).addTo(map);
+    });
+    var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var osmAttrib='Map data © OpenStreetMap contributors';
+    var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib}).addTo(map);
+    var tweetLayer = L.layerGroup();
+
+  a.btn.btn-success.refreshusers(href='http://localhost:3000/person/random')
+      i.fa.fa-refresh
+      | See a new user
 
   ul.list-unstyled
     for tweet in results
@@ -24,16 +32,18 @@ block content
         .panel.panel-default
           .panel-body
             .clearfix
-              - var image = tweet.user.profile_image_url.replace('_normal', '');
-              img.pull-left(src='#{image}', width=50, height=50, style='margin-right: 10px')
+              if showUser
+                - var image = tweet.user.profile_image_url.replace('_normal', '');
+                img.pull-left(src='#{image}', width=50, height=50, style='margin-right: 10px')
 
-              =tweet.user.name
-              small.text-muted  @#{tweet.user.screen_name}
-              br
+                =tweet.user.name
+                small.text-muted  @#{tweet.user.screen_name}
+                br              
               small #{tweet.text}
       if tweet.coordinates
         script(type='text/javascript').
-          var marker = L.marker([#{tweet.coordinates.coordinates[1]}, #{tweet.coordinates.coordinates[0]}]).addTo(map).bindPopup('#{tweet.text.replace("\\","\\\\").replace("\n","\\n").replace("\b","\\b").replace("\r","\\r").replace("\t","\\t").replace("\'","\\'").replace("\f","\\f").replace("\"","\\\"")}');
+          var marker = L.marker([#{tweet.coordinates.coordinates[1]}, #{tweet.coordinates.coordinates[0]}]).bindPopup('#{tweet.text.replace("\\","\\\\").replace("\n","\\n").replace("\b","\\b").replace("\r","\\r").replace("\t","\\t").replace("\'","\\'").replace("\f","\\f").replace("\"","\\\"")}');
+          tweetLayer.addLayer(marker);
           if (latlngs) {
             latlngs.push(marker.getLatLng())
           } else {
@@ -42,6 +52,11 @@ block content
 
   script(type='text/javascript').
     if (latlngs) {
+      var line = L.polyline(latlngs).addTo(map);
+      tweetLayer.addTo(map);
+      var baseLayers = {"CloudMade": baseTile, "OpenStreetMap": osm};
+      var overlays = {"Tweets": tweetLayer, "Line": line};
+      L.control.layers(baseLayers, overlays).addTo(map);
       var bounds = L.latLngBounds(latlngs);
       map.fitBounds(bounds);
     }
